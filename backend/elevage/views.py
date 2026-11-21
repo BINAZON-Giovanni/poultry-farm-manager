@@ -52,7 +52,15 @@ def connexion(request):
         throttle = ConnexionThrottle()
         if not throttle.allow_request(request, None):
             return Response({"detail": "Trop de tentatives, réessayez dans une minute."}, status=429)
-    user = authenticate(request, username=request.data.get("username", ""), password=request.data.get("password", ""))
+    identifiant = str(request.data.get("username", "")).strip()
+    password = request.data.get("password", "")
+    user = authenticate(request, username=identifiant, password=password)
+    if user is None and "@" in identifiant:
+        # Connexion possible aussi avec l'adresse email du compte
+        for candidat in User.objects.filter(email__iexact=identifiant, is_active=True):
+            user = authenticate(request, username=candidat.username, password=password)
+            if user:
+                break
     if not user or not user.is_active:
         return Response({"detail": "Identifiant ou mot de passe incorrect."}, status=status.HTTP_400_BAD_REQUEST)
     token, _ = Token.objects.get_or_create(user=user)

@@ -157,6 +157,13 @@ class AuthTests(BaseTest):
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {r.data['token']}")
         self.assertEqual(self.client.get("/api/auth/moi/").data["username"], "papa")
 
+    def test_connexion_par_email(self):
+        self.pere.email = "papa@example.com"
+        self.pere.save()
+        r = self.client.post("/api/auth/connexion/", {"username": "Papa@Example.com", "password": "motdepasse-papa"})
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.data["utilisateur"]["username"], "papa")
+
     def test_mauvais_mot_de_passe(self):
         r = self.client.post("/api/auth/connexion/", {"username": "papa", "password": "faux"})
         self.assertEqual(r.status_code, 400)

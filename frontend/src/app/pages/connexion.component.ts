@@ -13,7 +13,7 @@ import { AuthService } from '../core/auth.service';
         <div class="marque centre"><img src="icons/icon-96x96.png" alt="" width="44" height="44" /> Mon Poulailler</div>
         <p class="muted centre">Gestion du poulailler et de l'alimentation</p>
         <div class="champ">
-          <label for="u">Identifiant</label>
+          <label for="u">Identifiant ou email</label>
           <input id="u" name="username" [(ngModel)]="username" autocomplete="username" autocapitalize="none" required />
         </div>
         <div class="champ">

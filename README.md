@@ -43,6 +43,10 @@ npm install
 npx ng serve --host 0.0.0.0     # http://localhost:4200 (les appels /api sont relayés vers Django)
 ```
 
+> ⚠️ La base de données (`backend/db.sqlite3`) n'est **pas** dans le dépôt Git : après un clone, aucun compte
+> n'existe. Lance `createsuperuser` (ou `donnees_demo`) avant de te connecter. On peut se connecter avec
+> l'identifiant **ou** l'email du compte.
+
 Le compte de ton père se crée ensuite dans l'application (menu **Utilisateurs**, profil « Exploitant »).
 
 **Données de démonstration** (base de test uniquement) : `.venv/bin/python manage.py donnees_demo`
